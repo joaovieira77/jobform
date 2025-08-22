@@ -1,3 +1,56 @@
+.light-theme .nav a.active,
+.light-theme .nav a:hover {
+  background: #e3e7ef;
+  color: var(--primary-600);
+}
+.theme-toggle-btn span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  height: 1.5em;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+/* Modern theme toggle button styles */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: #152033;
+  border: 1px solid var(--border);
+  color: var(--primary);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  margin-left: 8px;
+  cursor: pointer;
+}
+.theme-toggle-btn:hover, .theme-toggle-btn:focus-visible {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary-600);
+  outline: none;
+}
+.theme-toggle-btn:focus {
+  outline: none;
+}
+.light-theme .theme-toggle-btn {
+  background: #e8eef7;
+  color: var(--primary-600);
+  border: 1px solid var(--border);
+}
+.light-theme .theme-toggle-btn:hover, .light-theme .theme-toggle-btn:focus-visible {
+  background: #fff;
+  color: var(--primary-600);
+  border-color: var(--primary-600);
+  outline: none;
+}
+.light-theme .theme-toggle-btn:focus {
+  outline: none;
+}
 
 :root{
   --bg:#0b0f14;
