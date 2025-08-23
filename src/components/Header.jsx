@@ -48,7 +48,6 @@ export default function Header() {
         <Link to="/" className="brand">Job Tracker</Link>
         <nav className="nav">
           <Link to="/" className={pathname === '/' ? 'active' : ''}>Dashboard</Link>
-          <Link to="/add" className={pathname === '/add' ? 'active' : ''}>Add Job</Link>
         </nav>
         <div className="header-actions">
           <button className="btn secondary" onClick={exportJSON}>Export JSON</button>

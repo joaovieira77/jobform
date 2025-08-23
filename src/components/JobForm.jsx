@@ -1,8 +1,12 @@
+
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useJobs } from '../context/JobsContext.jsx';
 
 export default function JobForm({ initial = null, onSubmit, submitLabel = 'Save' }) {
+
   const { STATUS } = useJobs();
+  const navigate = useNavigate();
   const [values, setValues] = useState(() => ({
     company: initial?.company || '',
     title: initial?.title || '',
@@ -91,8 +95,9 @@ export default function JobForm({ initial = null, onSubmit, submitLabel = 'Save'
         />
       </div>
 
-      <div className="form-actions">
+      <div className="form-actions" style={{ display: 'flex', gap: '8px' }}>
         <button type="submit" className="btn primary">{submitLabel}</button>
+        <button type="button" className="btn" onClick={() => navigate('/')}>Cancel</button>
       </div>
     </form>
   );

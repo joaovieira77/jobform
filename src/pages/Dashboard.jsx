@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useJobs } from '../context/JobsContext.jsx';
 import JobCard from '../components/JobCard.jsx';
 
 export default function Dashboard() {
   const { jobs, STATUS } = useJobs();
   const [filter, setFilter] = useState('All');
+  const navigate = useNavigate();
 
   const filtered = useMemo(() => {
     let result = filter === 'All' ? jobs : jobs.filter(j => j.status === filter);
@@ -16,7 +18,16 @@ export default function Dashboard() {
     <section>
       <div className="section-header">
         <h2>Dashboard</h2>
-        <div className="filters">
+        <div className="filters" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button
+            className="btn"
+            style={{ fontSize: '1.3rem', padding: '4px 12px', lineHeight: 1 }}
+            title="Add Job"
+            aria-label="Add Job"
+            onClick={() => navigate('/add')}
+          >
+            ＋
+          </button>
           <label className="sr-only" htmlFor="statusFilter">Filter by status</label>
           <select
             id="statusFilter"
