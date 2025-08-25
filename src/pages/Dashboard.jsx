@@ -13,6 +13,15 @@ export default function Dashboard() {
     let result = filter === 'All' ? jobs : jobs.filter(j => j.status === filter);
     return result.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
   }, [jobs, filter]);
+  const statusCounts = useMemo(() => {
+  const counts = { Total: jobs.length };
+  STATUS.forEach(s => {
+    counts[s] = jobs.filter(j => j.status === s).length;
+  });
+  return counts;
+}, [jobs, STATUS]);
+
+
 
   const onImportClick = () => fileRef.current?.click();
 
@@ -68,7 +77,8 @@ export default function Dashboard() {
             onChange={handleImport}
           />
 
-          
+  
+
 
           {/* Status filter dropdown */}
           <label className="sr-only" htmlFor="statusFilter">Filter by status</label>
@@ -82,6 +92,15 @@ export default function Dashboard() {
           </select>
         </div>
       </div>
+      <div className="stats-bar">
+  {['Total', ...STATUS].map(s => (
+    <div key={s} className="stat-box">
+      <h4>{s}</h4>
+      <p>{statusCounts[s]}</p>
+    </div>
+  ))}
+</div>
+
 
       {filtered.length === 0 ? (
         <div className="empty">
