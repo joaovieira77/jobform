@@ -1,24 +1,53 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useJobs } from '../context/JobsContext.jsx';
 import JobCard from '../components/JobCard.jsx';
 
 export default function Dashboard() {
-  const { jobs, STATUS } = useJobs();
+  const { jobs, STATUS, exportJSON, replaceAll } = useJobs();
   const [filter, setFilter] = useState('All');
   const navigate = useNavigate();
+  const fileRef = useRef(null);
 
   const filtered = useMemo(() => {
     let result = filter === 'All' ? jobs : jobs.filter(j => j.status === filter);
-    // Sort by date descending (newest first)
     return result.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
   }, [jobs, filter]);
+
+  const onImportClick = () => fileRef.current?.click();
+
+  const handleImport = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (!Array.isArray(data)) {
+        alert('Invalid file format. Expected an array of jobs.');
+        return;
+      }
+      replaceAll(data);
+      alert('Import successful.');
+    } catch (err) {
+      alert('Failed to import. Please ensure the file is a valid JSON export.');
+    } finally {
+      e.target.value = '';
+    }
+  };
 
   return (
     <section>
       <div className="section-header">
         <h2>Dashboard</h2>
-        <div className="filters" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div
+          className="filters"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            flexWrap: 'wrap',
+          }}
+        >{/* Add Job button */}
           <button
             className="btn"
             style={{ fontSize: '1.3rem', padding: '4px 12px', lineHeight: 1 }}
@@ -28,6 +57,20 @@ export default function Dashboard() {
           >
             ＋
           </button>
+          {/* Import/Export buttons on the left */}
+          <button className="btn secondary" onClick={exportJSON}>Export JSON</button>
+          <button className="btn secondary" onClick={onImportClick}>Import JSON</button>
+          <input
+            type="file"
+            ref={fileRef}
+            accept="application/json"
+            style={{ display: 'none' }}
+            onChange={handleImport}
+          />
+
+          
+
+          {/* Status filter dropdown */}
           <label className="sr-only" htmlFor="statusFilter">Filter by status</label>
           <select
             id="statusFilter"

@@ -57,7 +57,7 @@ export default function JobDetails() {
               <button className="btn danger" onClick={handleDelete}>Delete</button>
             </div>
           </div>
-          <button className="btn" style={{marginBottom: '16px'}} onClick={() => navigate('/')}> 
+          <button className="btn go-back" style={{marginBottom: '16px'}} onClick={() => navigate('/')}> 
             ← Go Back
           </button>
           <div className="detail-card">

@@ -1,11 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useRef, useState, useEffect } from 'react';
-import { useJobs } from '../context/JobsContext.jsx';
-
+import { useState, useEffect } from 'react';
 
 export default function Header() {
-  const { exportJSON, replaceAll } = useJobs();
-  const fileRef = useRef(null);
   const { pathname } = useLocation();
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -21,27 +17,6 @@ export default function Header() {
 
   const toggleTheme = () => setTheme(t => (t === 'dark' ? 'light' : 'dark'));
 
-  const onImportClick = () => fileRef.current?.click();
-
-  const handleImport = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    try {
-      const text = await file.text();
-      const data = JSON.parse(text);
-      if (!Array.isArray(data)) {
-        alert('Invalid file format. Expected an array of jobs.');
-        return;
-      }
-      replaceAll(data);
-      alert('Import successful.');
-    } catch (err) {
-      alert('Failed to import. Please ensure the file is a valid JSON export.');
-    } finally {
-      e.target.value = '';
-    }
-  };
-
   return (
     <header className="app-header">
       <div className="container header-inner">
@@ -50,8 +25,6 @@ export default function Header() {
           <Link to="/" className={pathname === '/' ? 'active' : ''}>Dashboard</Link>
         </nav>
         <div className="header-actions">
-          <button className="btn secondary" onClick={exportJSON}>Export JSON</button>
-          <button className="btn secondary" onClick={onImportClick}>Import JSON</button>
           <button
             className="theme-toggle-btn"
             onClick={toggleTheme}
@@ -84,13 +57,6 @@ export default function Header() {
                   </span>
                 )}
           </button>
-          <input
-            type="file"
-            ref={fileRef}
-            accept="application/json"
-            style={{ display: 'none' }}
-            onChange={handleImport}
-          />
         </div>
       </div>
     </header>
