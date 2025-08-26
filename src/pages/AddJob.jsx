@@ -12,7 +12,7 @@ export default function AddJob() {
   };
 
   return (
-    <section>
+    <section className='container'>
       <h2>Add job</h2>
       <JobForm onSubmit={handleSubmit} submitLabel="Add job" />
     </section>

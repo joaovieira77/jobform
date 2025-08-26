@@ -36,7 +36,7 @@ export default function JobDetails() {
   };
 
   return (
-    <section>
+    <section className='container'>
       {showConfirm && (
         <div className="modal-overlay">
           <div className="modal">
